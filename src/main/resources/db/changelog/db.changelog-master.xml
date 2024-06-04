@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1717503561102-1" author="neok">
+        <createTable tableName="address" ifNotExists="true">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_address"/>
+            </column>
+            <column name="hotel_id" type="INT"/>
+            <column name="house_number" type="VARCHAR(255)"/>
+            <column name="street" type="VARCHAR(255)"/>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="country" type="VARCHAR(255)"/>
+            <column name="post_code" type="VARCHAR(255)"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="address"/>
+        </rollback>
+    </changeSet>
+    <changeSet id="1717503561102-2" author="neok">
+        <createTable tableName="amenities" ifNotExists="true">
+            <column name="hotel_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amenity" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="amenities"/>
+        </rollback>
+    </changeSet>
+    <changeSet id="1717503561102-3" author="neok">
+        <createTable tableName="arrivaltime" ifNotExists="true">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_arrivaltime"/>
+            </column>
+            <column name="hotel_id" type="INT"/>
+            <column name="check_in" type="TIME"/>
+            <column name="check_out" type="TIME"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="arrivaltime"/>
+        </rollback>
+    </changeSet>
+    <changeSet id="1717503561102-4" author="neok">
+        <createTable tableName="contacts" ifNotExists="true">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_contacts"/>
+            </column>
+            <column name="hotel_id" type="INT"/>
+            <column name="phone" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="contacts"/>
+        </rollback>
+    </changeSet>
+    <changeSet id="1717503561102-5" author="neok">
+        <createTable tableName="hotel" ifNotExists="true">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_hotel"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="brand" type="VARCHAR(255)"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="hotel"/>
+        </rollback>
+    </changeSet>
+    <changeSet id="1717503561102-6" author="neok">
+        <addUniqueConstraint columnNames="hotel_id" constraintName="uc_address_hotel" tableName="address"/>
+    </changeSet>
+    <changeSet id="1717503561102-7" author="neok">
+        <addUniqueConstraint columnNames="hotel_id" constraintName="uc_arrivaltime_hotel" tableName="arrivaltime"/>
+    </changeSet>
+    <changeSet id="1717503561102-8" author="neok">
+        <addUniqueConstraint columnNames="hotel_id" constraintName="uc_contacts_hotel" tableName="contacts"/>
+    </changeSet>
+    <changeSet id="1717503561102-9" author="neok">
+        <addForeignKeyConstraint baseColumnNames="hotel_id" baseTableName="address" constraintName="FK_ADDRESS_ON_HOTEL"
+                                 referencedColumnNames="id" referencedTableName="hotel"/>
+    </changeSet>
+    <changeSet id="1717503561102-10" author="neok">
+        <addForeignKeyConstraint baseColumnNames="hotel_id" baseTableName="arrivaltime"
+                                 constraintName="FK_ARRIVALTIME_ON_HOTEL" referencedColumnNames="id"
+                                 referencedTableName="hotel"/>
+    </changeSet>
+    <changeSet id="1717503561102-11" author="neok">
+        <addForeignKeyConstraint baseColumnNames="hotel_id" baseTableName="contacts"
+                                 constraintName="FK_CONTACTS_ON_HOTEL" referencedColumnNames="id"
+                                 referencedTableName="hotel"/>
+    </changeSet>
+    <changeSet id="1717503561102-12" author="neok">
+        <addForeignKeyConstraint baseColumnNames="hotel_id" baseTableName="amenities"
+                                 constraintName="fk_amenities_on_hotel" referencedColumnNames="id"
+                                 referencedTableName="hotel"/>
+    </changeSet>
+    <changeSet id="insert-1" author="neok">
+        <insert tableName="HOTEL">
+            <column name="BRAND" value="Hilton-1"/>
+            <column name="description" value="desc-1"/>
+            <column name="name" value="Hiltonname-1"/>
+        </insert>
+        <insert tableName="HOTEL">
+            <column name="BRAND" value="Hilton-2"/>
+            <column name="description" value="desc-2"/>
+            <column name="name" value="Hiltonname-2"/>
+        </insert>
+        <insert tableName="HOTEL">
+            <column name="BRAND" value="Hilton-3"/>
+            <column name="description" value="desc-3"/>
+            <column name="name" value="Hiltonname-3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="insert-2" author="neok">
+        <insert tableName="ADDRESS">
+            <column name="house_number" value="9-1"/>
+            <column name="city" value="city-1"/>
+            <column name="country" value="country-1"/>
+            <column name="street" value="street-1"/>
+            <column name="post_code" value="post_code-1"/>
+            <column name="hotel_id" value="1"/>
+        </insert>
+        <insert tableName="ADDRESS">
+            <column name="house_number" value="9-2"/>
+            <column name="city" value="city-2"/>
+            <column name="country" value="country-2"/>
+            <column name="street" value="street-2"/>
+            <column name="post_code" value="post_code-2"/>
+            <column name="hotel_id" value="2"/>
+        </insert>
+        <insert tableName="ADDRESS">
+            <column name="house_number" value="9-3"/>
+            <column name="city" value="city-3"/>
+            <column name="country" value="country-3"/>
+            <column name="street" value="street-3"/>
+            <column name="post_code" value="post_code-3"/>
+            <column name="hotel_id" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="insert-3" author="neok">
+        <insert tableName="ARRIVALTIME">
+            <column name="check_in" value="11:40:00"/>
+            <column name="check_out" value="11:40:00"/>
+            <column name="hotel_id" value="1"/>
+        </insert>
+        <insert tableName="ARRIVALTIME">
+            <column name="check_in" value="11:40:00"/>
+            <column name="check_out" value="11:40:00"/>
+            <column name="hotel_id" value="2"/>
+        </insert>
+        <insert tableName="ARRIVALTIME">
+            <column name="check_in" value="11:40:00"/>
+            <column name="check_out" value="11:40:00"/>
+            <column name="hotel_id" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="insert-4" author="neok">
+        <insert tableName="CONTACTS">
+            <column name="email" value="doubletreeminsk.info@hilton.com"/>
+            <column name="phone" value="+375173098000"/>
+            <column name="hotel_id" value="1"/>
+        </insert>
+        <insert tableName="CONTACTS">
+            <column name="email" value="doubletreeminsk.info@hilton.com"/>
+            <column name="phone" value="+375173098000"/>
+            <column name="hotel_id" value="2"/>
+        </insert>
+        <insert tableName="CONTACTS">
+            <column name="email" value="doubletreeminsk.info@hilton.com"/>
+            <column name="phone" value="+375173098000"/>
+            <column name="hotel_id" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="insert-5" author="neok">
+        <insert tableName="amenities">
+            <column name="amenity" value="FREE_WIFI"/>
+            <column name="hotel_id" value="1"/>
+        </insert>
+        <insert tableName="amenities">
+            <column name="amenity" value="FREE_PARKING"/>
+            <column name="hotel_id" value="2"/>
+        </insert>
+        <insert tableName="amenities">
+            <column name="amenity" value="FREE_WIFI"/>
+            <column name="hotel_id" value="3"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
