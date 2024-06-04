@@ -35,7 +35,7 @@ public class HotelsController implements IHotelsController{
         return mapper.mapHotelToDTO(hotelService.getHotelById(id));
     }
     @Override
-    public List<HotelSimpleDTO> searchHotelsBySmth(Optional<String> name, Optional<String> brand, Optional<String> city, Optional<String> country, Optional<String> amenities){
+    public List<HotelSimpleDTO> searchHotelsBySmth(Optional<String> name, Optional<String> brand, Optional<String> city, Optional<String> country, Optional<String[]> amenities){
         return mapper.mapHotelListToSimpleList(hotelService.searchHotels(name,brand,city,country,amenities));
     }
     @Override

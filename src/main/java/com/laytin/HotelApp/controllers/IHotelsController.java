@@ -47,7 +47,7 @@ public interface IHotelsController {
                                             @Parameter(name = "country", description = "if search by country(optional)")
                                             @RequestParam(value = "country", required = false) Optional<String> country,
                                             @Parameter(name = "amenities", description = "if search by amenities(optional)")
-                                            @RequestParam(value = "amenities", required = false) Optional<String> amenities);
+                                            @RequestParam(value = "amenities", required = false) Optional<String[]> amenities);
 
     @Operation(summary = "Create new hotel")
     @ApiResponses(value = {

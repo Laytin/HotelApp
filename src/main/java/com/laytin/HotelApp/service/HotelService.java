@@ -44,7 +44,7 @@ public class HotelService {
         return hotelRepository.findAllHotels();
     }
 
-    public List<Hotel> searchHotels(Optional<String> name, Optional<String> brand, Optional<String> city, Optional<String> country, Optional<String> amenities) {
+    public List<Hotel> searchHotels(Optional<String> name, Optional<String> brand, Optional<String> city, Optional<String> country, Optional<String[]> amenities) {
         return hotelDAO.search(name, brand, city, country, amenities);
     }
     @Transactional

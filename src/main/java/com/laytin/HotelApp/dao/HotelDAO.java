@@ -23,7 +23,7 @@ public class HotelDAO {
         this.entityManager = entityManager;
     }
     @Transactional
-    public List<Hotel> search(Optional<String> name, Optional<String> brand, Optional<String> city, Optional<String> country, Optional<String> amenities) {
+    public List<Hotel> search(Optional<String> name, Optional<String> brand, Optional<String> city, Optional<String> country, Optional<String[]> amenities) {
         Session s = entityManager.unwrap(Session.class);
         CriteriaBuilder builder = s.getCriteriaBuilder();
         CriteriaQuery<Hotel> query = builder.createQuery(Hotel.class);
@@ -39,10 +39,12 @@ public class HotelDAO {
         city.ifPresent(string -> predicates.add(builder.equal(addressJoin.get("city"), string)));
         country.ifPresent(string -> predicates.add(builder.equal(addressJoin.get("country"), string)));
         amenities.ifPresent(string -> {
-            // 'FREE_WIFI' and 'Free WIFI'
-            Predicate a = builder.equal(root.joinList("amenities"), AmenityEnum.getEnumByString(string));
-            Predicate b = builder.equal(root.joinList("amenities"), string);
-            predicates.add(builder.or(a,b));
+            for (String g: string) {
+                // 'FREE_WIFI' and 'Free WIFI'
+                Predicate a = builder.equal(root.joinList("amenities"), AmenityEnum.getEnumByString(g));
+                Predicate b = builder.equal(root.joinList("amenities"), string);
+                predicates.add(builder.or(a,b));
+            }
         });
         Predicate finalQuery = builder.and(predicates.toArray(new Predicate[0]));
         query.where(finalQuery);
