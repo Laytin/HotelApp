@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
-public class HotelService {
+public class HotelService implements IHotelService{
     private final HotelRepository hotelRepository;
     private final AddressRepository addressRepository;
     private final ContactsRepository contactsRepository;
@@ -33,6 +33,7 @@ public class HotelService {
         this.arrivalTimeRepository = arrivalTimeRepository;
         this.hotelDAO = hotelDAO;
     }
+    @Override
     public Hotel getHotelById(int i ){
         Optional<Hotel> g = hotelRepository.findById(i);
         if(!g.isPresent())
@@ -40,14 +41,15 @@ public class HotelService {
         return g.get();
     }
     //1+n solving
+    @Override
     public List<Hotel> getHotels() {
         return hotelRepository.findAllHotels();
     }
-
+    @Override
     public List<Hotel> searchHotels(Optional<String> name, Optional<String> brand, Optional<String> city, Optional<String> country, Optional<String[]> amenities) {
         return hotelDAO.search(name, brand, city, country, amenities);
     }
-    @Transactional
+    @Override
     public Hotel createNewHotel(Hotel o) {
         Hotel res = hotelRepository.save(o);
         o.getAddress().setHotel(res);
@@ -58,7 +60,7 @@ public class HotelService {
         arrivalTimeRepository.save(o.getArrivalTime());
         return res;
     }
-    @Transactional
+    @Override
     public Hotel addAmenities(int id, String[] amenities) {
         List<AmenityEnum> am  = new ArrayList<>();
         Arrays.stream(amenities).toList().forEach(f->{
