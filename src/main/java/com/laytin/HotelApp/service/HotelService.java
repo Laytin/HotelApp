@@ -36,8 +36,8 @@ public class HotelService implements IHotelService{
     @Override
     public Hotel getHotelById(int i ){
         Optional<Hotel> g = hotelRepository.findById(i);
-        if(!g.isPresent())
-            ErrorBuilder.buildErrorMessageForClient("Hotel not found");
+        if(!g.isPresent()) return null;
+        //ErrorBuilder.buildErrorMessageForClient("Hotel not found");
         return g.get();
     }
     //1+n solving

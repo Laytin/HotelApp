@@ -39,6 +39,7 @@ public class HotelMapper {
     }
 
     public HotelDTO mapHotelToDTO(Hotel hotelById) {
+        if(hotelById==null) return null;
         HotelDTO res = mapper.map(hotelById, HotelDTO.class);
         res.setAmenities(new ArrayList<>());
         hotelById.getAmenities().forEach(f-> res.getAmenities().add(f.getTitle()));
