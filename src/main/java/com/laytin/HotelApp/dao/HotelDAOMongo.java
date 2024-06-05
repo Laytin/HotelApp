@@ -42,10 +42,13 @@ public class HotelDAOMongo {
         country.ifPresent(string -> query.addCriteria(Criteria.where("address.country").is(string)));
         amenities.ifPresent(string -> {
             String g = string[0];
-            if(AmenityEnum.getEnumByString(g)!=null)
-                query.addCriteria(Criteria.where("amenities").is(AmenityEnum.getEnumByString(g).toString()));
-            else
+            AmenityEnum a2= AmenityEnum.getEnumByString(g);
+            if(a2!=null)
+                query.addCriteria(Criteria.where("amenities").is(a2.toString()));
+            else try {
                 query.addCriteria(Criteria.where("amenities").is(g));
+            }catch (IllegalArgumentException e){
+            }
         });
         return mongoOperations.find(query, HotelMongo.class);
     }
