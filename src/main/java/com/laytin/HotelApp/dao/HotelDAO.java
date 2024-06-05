@@ -41,11 +41,14 @@ public class HotelDAO {
         amenities.ifPresent(string -> {
             for (String g: string) {
                 // 'FREE_WIFI' and 'Free WIFI'
-                Predicate b = builder.equal(root.joinList("amenities"), string);
-                if(AmenityEnum.getEnumByString(g)!=null)
-                    predicates.add(builder.or(b,builder.equal(root.joinList("amenities"), AmenityEnum.getEnumByString(g))));
-                else
-                    predicates.add(b);
+                AmenityEnum a2= AmenityEnum.getEnumByString(g);
+                if(a2!=null)
+                    predicates.add(builder.equal(root.joinList("amenities"), a2.toString()));
+                else try {
+                    predicates.add(builder.equal(root.joinList("amenities"),AmenityEnum.valueOf(g).toString()));
+                }catch (IllegalArgumentException e){
+                    System.out.println("asda");
+                }
             }
         });
         Predicate finalQuery = builder.and(predicates.toArray(new Predicate[0]));
