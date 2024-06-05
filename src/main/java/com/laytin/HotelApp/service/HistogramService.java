@@ -13,15 +13,9 @@ import java.util.Map;
 @Service
 @Transactional(readOnly = true)
 public class HistogramService implements IHistogramService{
-    private final HotelRepository hotelRepository;
-    private final AddressRepository addressRepository;
-    private final ContactsRepository contactsRepository;
     private final HistogramDAO histogramDAO;
     @Autowired
-    public HistogramService(HotelRepository hotelRepository, AddressRepository addressRepository, ContactsRepository contactsRepository, HistogramDAO histogramDAO) {
-        this.hotelRepository = hotelRepository;
-        this.addressRepository = addressRepository;
-        this.contactsRepository = contactsRepository;
+    public HistogramService(HistogramDAO histogramDAO) {
         this.histogramDAO = histogramDAO;
     }
     @Override
