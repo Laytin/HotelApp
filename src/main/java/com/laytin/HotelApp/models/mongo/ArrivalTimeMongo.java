@@ -1,4 +1,4 @@
-package com.laytin.HotelApp.models;
+package com.laytin.HotelApp.models.mongo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -7,24 +7,13 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.sql.Time;
 import java.time.LocalTime;
 
 @Data
-@Entity
-@Table(name = "arrivaltime")
 @NoArgsConstructor
-public class ArrivalTime extends ArrivalTimeAbstr {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
-    private int id;
-    @OneToOne
-    @JoinColumn(name = "hotel_id")
-    @JsonIgnore
-    @ToString.Exclude
-    private Hotel hotel;
+public class ArrivalTimeMongo extends ArrivalTimeAbstr {
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="HH:mm")
     private LocalTime checkIn;
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="HH:mm")

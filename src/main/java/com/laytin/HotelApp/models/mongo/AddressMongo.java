@@ -1,4 +1,4 @@
-package com.laytin.HotelApp.models;
+package com.laytin.HotelApp.models.mongo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.laytin.HotelApp.models.abstr.AddressAbstr;
@@ -6,26 +6,10 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.LazyToOne;
-import org.hibernate.annotations.LazyToOneOption;
-
+import org.springframework.data.mongodb.core.mapping.Document;
 @Data
-@Entity
-@Table(name = "address")
 @NoArgsConstructor
-public class Address extends AddressAbstr {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
-    private int id;
-    @OneToOne()
-    @JoinColumn(name = "hotel_id")
-    @JsonIgnore
-    @ToString.Exclude
-    private Hotel hotel;
-
+public class AddressMongo extends AddressAbstr {
     private String houseNumber;
     private String street;
     private String city;

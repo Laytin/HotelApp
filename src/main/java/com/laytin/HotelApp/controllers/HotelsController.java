@@ -3,11 +3,11 @@ package com.laytin.HotelApp.controllers;
 import com.laytin.HotelApp.dto.HotelSimpleDTO;
 import com.laytin.HotelApp.dto.HotelDTO;
 import com.laytin.HotelApp.dto.RegHotelDTO;
+import com.laytin.HotelApp.service.IHotelService;
 import com.laytin.HotelApp.utils.exception.ErrorBuilder;
-import com.laytin.HotelApp.service.HotelService;
 import com.laytin.HotelApp.utils.exception.DefaultErrorException;
 import com.laytin.HotelApp.utils.exception.DefaultErrorResponce;
-import com.laytin.HotelApp.utils.mapper.HotelMapper;
+import com.laytin.HotelApp.utils.mapper.IHotelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +19,12 @@ import java.util.Optional;
 
 @RestController
 public class HotelsController implements IHotelsController{
-    private final HotelService hotelService;
-    private final HotelMapper mapper;
+    private final IHotelMapper mapper;
+    private final IHotelService hotelService;
     @Autowired
-    public HotelsController(HotelService hotelService, HotelMapper mapper) {
-        this.hotelService = hotelService;
+    public HotelsController(IHotelMapper mapper, IHotelService hotelService) {
         this.mapper = mapper;
+        this.hotelService = hotelService;
     }
     @Override
     public List<HotelSimpleDTO> getHotelList(){

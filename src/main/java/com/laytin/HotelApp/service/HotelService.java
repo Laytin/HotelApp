@@ -3,12 +3,14 @@ package com.laytin.HotelApp.service;
 import com.laytin.HotelApp.dao.HotelDAO;
 import com.laytin.HotelApp.models.AmenityEnum;
 import com.laytin.HotelApp.models.Hotel;
+import com.laytin.HotelApp.models.abstr.HotelAbstr;
 import com.laytin.HotelApp.repository.AddressRepository;
 import com.laytin.HotelApp.repository.ArrivalTimeRepository;
 import com.laytin.HotelApp.repository.ContactsRepository;
 import com.laytin.HotelApp.repository.HotelRepository;
 import com.laytin.HotelApp.utils.exception.ErrorBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
+@Profile("sql")
 @Service
 @Transactional(readOnly = true)
 public class HotelService implements IHotelService{
@@ -49,8 +51,10 @@ public class HotelService implements IHotelService{
     public List<Hotel> searchHotels(Optional<String> name, Optional<String> brand, Optional<String> city, Optional<String> country, Optional<String[]> amenities) {
         return hotelDAO.search(name, brand, city, country, amenities);
     }
+
     @Override
-    public Hotel createNewHotel(Hotel o) {
+    public <T extends HotelAbstr> T createNewHotel(T a) {
+        Hotel o = (Hotel) a;
         Hotel res = hotelRepository.save(o);
         o.getAddress().setHotel(res);
         o.getContacts().setHotel(res);
@@ -58,7 +62,7 @@ public class HotelService implements IHotelService{
         addressRepository.save(o.getAddress());
         contactsRepository.save(o.getContacts());
         arrivalTimeRepository.save(o.getArrivalTime());
-        return res;
+        return (T) res;
     }
     @Override
     public Hotel addAmenities(int id, String[] amenities) {

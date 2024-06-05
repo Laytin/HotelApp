@@ -1,12 +1,9 @@
 package com.laytin.HotelApp.models;
 
+import com.laytin.HotelApp.models.abstr.HotelAbstr;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 
@@ -14,7 +11,7 @@ import java.util.List;
 @Entity
 @Table(name="hotel")
 @NoArgsConstructor
-public class Hotel {
+public class Hotel extends HotelAbstr {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

@@ -1,6 +1,7 @@
 package com.laytin.HotelApp.repository;
 
 import com.laytin.HotelApp.models.Hotel;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-
+@Profile("sql")
 @Repository
 public interface HotelRepository extends JpaRepository<Hotel,Integer> {
     Optional<Hotel> findById(int id);

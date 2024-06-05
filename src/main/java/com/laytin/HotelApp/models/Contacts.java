@@ -1,6 +1,7 @@
 package com.laytin.HotelApp.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.laytin.HotelApp.models.abstr.ContactsAbstr;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import org.hibernate.annotations.LazyToOneOption;
 @Entity
 @Table(name = "contacts")
 @NoArgsConstructor
-public class Contacts {
+public class Contacts extends ContactsAbstr {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore

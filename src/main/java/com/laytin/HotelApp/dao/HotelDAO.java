@@ -9,11 +9,12 @@ import jakarta.persistence.criteria.*;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-
+@Profile("sql")
 @Component
 public class HotelDAO {
     private final EntityManager entityManager;
@@ -22,7 +23,7 @@ public class HotelDAO {
     public HotelDAO(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Hotel> search(Optional<String> name, Optional<String> brand, Optional<String> city, Optional<String> country, Optional<String[]> amenities) {
         Session s = entityManager.unwrap(Session.class);
         CriteriaBuilder builder = s.getCriteriaBuilder();
