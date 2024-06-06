@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
         objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
-    <changeSet id="1717503561102-1" author="neok">
+    <changeSet id="1717503561102-1" author="neok" runAlways="true">
         <createTable tableName="address" ifNotExists="true">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_address"/>
@@ -21,7 +21,7 @@
             <dropTable tableName="address"/>
         </rollback>
     </changeSet>
-    <changeSet id="1717503561102-2" author="neok">
+    <changeSet id="1717503561102-2" author="neok" runAlways="true">
         <createTable tableName="amenities" ifNotExists="true">
             <column name="hotel_id" type="INT">
                 <constraints nullable="false"/>
@@ -34,7 +34,7 @@
             <dropTable tableName="amenities"/>
         </rollback>
     </changeSet>
-    <changeSet id="1717503561102-3" author="neok">
+    <changeSet id="1717503561102-3" author="neok" runAlways="true">
         <createTable tableName="arrivaltime" ifNotExists="true">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_arrivaltime"/>
@@ -47,7 +47,7 @@
             <dropTable tableName="arrivaltime"/>
         </rollback>
     </changeSet>
-    <changeSet id="1717503561102-4" author="neok">
+    <changeSet id="1717503561102-4" author="neok" runAlways="true">
         <createTable tableName="contacts" ifNotExists="true">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_contacts"/>
@@ -60,7 +60,7 @@
             <dropTable tableName="contacts"/>
         </rollback>
     </changeSet>
-    <changeSet id="1717503561102-5" author="neok">
+    <changeSet id="1717503561102-5" author="neok" runAlways="true">
         <createTable tableName="hotel" ifNotExists="true">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_hotel"/>
@@ -73,30 +73,68 @@
             <dropTable tableName="hotel"/>
         </rollback>
     </changeSet>
-    <changeSet id="1717503561102-6" author="neok">
+    <changeSet id="1717503561102-6" author="neok" runAlways="true">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <uniqueConstraintExists constraintName="uc_address_hotel"
+                                        tableName="address"/>
+            </not>
+        </preConditions>
         <addUniqueConstraint columnNames="hotel_id" constraintName="uc_address_hotel" tableName="address"/>
     </changeSet>
-    <changeSet id="1717503561102-7" author="neok">
+    <changeSet id="1717503561102-7" author="neok" runAlways="true">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <uniqueConstraintExists constraintName="uc_arrivaltime_hotel"
+                                        tableName="arrivaltime"/>
+            </not>
+        </preConditions>
         <addUniqueConstraint columnNames="hotel_id" constraintName="uc_arrivaltime_hotel" tableName="arrivaltime"/>
     </changeSet>
-    <changeSet id="1717503561102-8" author="neok">
+    <changeSet id="1717503561102-8" author="neok" runAlways="true">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <uniqueConstraintExists constraintName="uc_contacts_hotel"
+                                        tableName="contacts"/>
+            </not>
+        </preConditions>
         <addUniqueConstraint columnNames="hotel_id" constraintName="uc_contacts_hotel" tableName="contacts"/>
     </changeSet>
-    <changeSet id="1717503561102-9" author="neok">
+    <changeSet id="1717503561102-9" author="neok" runAlways="true">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FK_ADDRESS_ON_HOTEL" />
+            </not>
+        </preConditions>
         <addForeignKeyConstraint baseColumnNames="hotel_id" baseTableName="address" constraintName="FK_ADDRESS_ON_HOTEL"
                                  referencedColumnNames="id" referencedTableName="hotel"/>
     </changeSet>
-    <changeSet id="1717503561102-10" author="neok">
+    <changeSet id="1717503561102-10" author="neok" runAlways="true">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FK_ARRIVALTIME_ON_HOTEL" />
+            </not>
+        </preConditions>
         <addForeignKeyConstraint baseColumnNames="hotel_id" baseTableName="arrivaltime"
                                  constraintName="FK_ARRIVALTIME_ON_HOTEL" referencedColumnNames="id"
                                  referencedTableName="hotel"/>
     </changeSet>
-    <changeSet id="1717503561102-11" author="neok">
+    <changeSet id="1717503561102-11" author="neok" runAlways="true">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FK_CONTACTS_ON_HOTEL" />
+            </not>
+        </preConditions>
         <addForeignKeyConstraint baseColumnNames="hotel_id" baseTableName="contacts"
                                  constraintName="FK_CONTACTS_ON_HOTEL" referencedColumnNames="id"
                                  referencedTableName="hotel"/>
     </changeSet>
-    <changeSet id="1717503561102-12" author="neok">
+    <changeSet id="1717503561102-12" author="neok" runAlways="true">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk_amenities_on_hotel" />
+            </not>
+        </preConditions>
         <addForeignKeyConstraint baseColumnNames="hotel_id" baseTableName="amenities"
                                  constraintName="fk_amenities_on_hotel" referencedColumnNames="id"
                                  referencedTableName="hotel"/>
