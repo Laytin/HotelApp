@@ -24,7 +24,9 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI customOpenApi(@Value("${application-description}")String appDescription,
-                                 @Value("${application-version}")String appVersion) {
+                                 @Value("${application-version}")String appVersion,
+                                 @Value("${application-devUrl}")String devUrl,
+                                 @Value("${application-betaUrl}")String betaUrl) {
         return new OpenAPI().info(new Info().title("Application API")
                         .version(appVersion)
                         .description(appDescription)
@@ -32,9 +34,9 @@ public class SwaggerConfig {
                                 .url("http://springdoc.org"))
                         .contact(new Contact().name("username")
                                 .email("test@gmail.com")))
-                .servers(List.of(new Server().url("http://localhost:8095")
+                .servers(List.of(new Server().url(devUrl)
                                 .description("Dev service"),
-                        new Server().url("http://localhost:8096")
+                        new Server().url(betaUrl)
                                 .description("Beta service")));
     }
 }
